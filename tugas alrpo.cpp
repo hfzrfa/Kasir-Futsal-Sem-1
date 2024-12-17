@@ -1,3 +1,7 @@
+// TUBES ALRPO SEMESTER 1
+// APLIKASI KASIR FUTSAL
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,12 +15,11 @@ struct Transaksi {
     double hargaPerJam;
     int durasiSewa;  // dalam jam
     double totalHarga;
-    // string emailPelanggan;
 };
 
-vector<Transaksi> daftarTransaksi;  // Menyimpan semua transaksi
+vector<Transaksi> daftarTransaksi;  // digunakan sebagai kontainer dinamis untuk menyimpan daftar transaksi
 
-// Fungsi untuk login admin
+// Berikut adalah fungsi untuk mengakses login admin
 bool loginAdmin() {
     string username, password;
     const string adminUsername = "admin";  // Username admin
@@ -27,10 +30,11 @@ bool loginAdmin() {
     cout << "Masukkan password admi     n: ";
     cin >> password;
 
-    return (username == adminUsername && password == adminPassword);
+    return (username == adminUsername && password == adminPassword); // Mengembalikan true jika username dan password benar
 }
 
-// Fungsi untuk menulis log ke file
+// Berikut adalah fungsi untuk menulis log ke file
+
 void writeLog(const string &message) {
     ofstream logFile;
     logFile.open("log_transaksi.txt", ios::app);  // Membuka file log untuk menambah (append)
@@ -42,7 +46,8 @@ void writeLog(const string &message) {
     }
 }
 
-// Fungsi untuk menambah transaksi
+// Berikut adalah fungsi untuk menambah transaksi
+
 void addTransaksi(Transaksi &transaksi, int id) {
     transaksi.idTransaksi = id;
 
@@ -53,7 +58,8 @@ void addTransaksi(Transaksi &transaksi, int id) {
     cout << "Pilih (1/2): ";
     cin >> pilihanLapangan;
 
-    // Validasi pilihan lapangan
+// memvalidasi pilihan lapangan dan menghitung total harga menggunakan siwtch case
+
     switch (pilihanLapangan) {
         case 1:
             transaksi.jenisLapangan = "Lapangan Standar";
@@ -68,38 +74,45 @@ void addTransaksi(Transaksi &transaksi, int id) {
             return;
     }
 
-    // Validasi durasi sewa
+// setelah itu, user diminta untuk memasukkan durasi sewa 
+
     cout << "Masukkan durasi sewa (dalam jam): ";
     cin >> transaksi.durasiSewa;
-    if (transaksi.durasiSewa <= 0) {
-        cout << "Durasi sewa tidak valid.\n";
+    if (transaksi.durasiSewa <= 0) { // yang arti nya durasi sewa harus lebih dari 1 jam
+        cout << "Durasi sewa tidak valid.\n"; // jika durasi sewa tidak valid maka akan muncul pesan ini
         return;
     }
 
-    // cout << "Masukkan alamat email pelanggan: ";
-    // cin >> transaksi.emailPelanggan;
+    // setelah itu, total harga dihitung berdasarkan harga per jam dan durasi sewa
 
     transaksi.totalHarga = transaksi.hargaPerJam * transaksi.durasiSewa;
-    daftarTransaksi.push_back(transaksi);  // Menambahkan transaksi ke daftar
+    daftarTransaksi.push_back(transaksi);  // menambahkan transaksi ke daftar transaksi yang ada
 
-    // Menulis log transaksi baru
+    
+    // menuliskan log transaksi baru ke log file
+
     string logMessage = "Transaksi Baru: ID " + to_string(transaksi.idTransaksi) + ", Lapangan: " + transaksi.jenisLapangan +
                         ", Durasi: " + to_string(transaksi.durasiSewa) + " jam, Total: Rp " + to_string(transaksi.totalHarga);
     writeLog(logMessage);
 }
 
-// Fungsi untuk mencetak struk transaksi
+
+    // Berikut adalah fungsi untuk menampilkan semua transaksi
 void printStruk(const Transaksi &transaksi) {
-    cout << "\n\n======== Struk Pembayaran Futsal MarBit ========\n";
-    cout << "ID Transaksi: " << transaksi.idTransaksi << endl;
-    cout << "Jenis Lapangan: " << transaksi.jenisLapangan << endl;
-    cout << "Durasi Sewa: " << transaksi.durasiSewa << " jam\n";
-    cout << "Harga Per Jam: Rp " << fixed << setprecision(2) << transaksi.hargaPerJam << endl;
-    cout << "Total Harga: Rp " << fixed << setprecision(2) << transaksi.totalHarga << endl;
+    cout << "\n\n======== STRUK PEMBAYARAN FUTSAL BYTE ========\n";
+    cout << "ID Transaksi: " << transaksi.idTransaksi << endl;  // memanggil id transkasi 
+    cout << "Jenis Lapangan: " << transaksi.jenisLapangan << endl; // memanggil jenis lapangan
+    cout << "Durasi Sewa: " << transaksi.durasiSewa << " jam\n"; // memanggil durasi sewa untuk di tampilkan
+    cout << "Harga Per Jam: Rp " << fixed << setprecision(2) << transaksi.hargaPerJam << endl; // memanggil harga per jam
+    cout << "Total Harga: Rp " << fixed << setprecision(2) << transaksi.totalHarga << endl;  // memanggil total harga
+    
     cout << "==============================================\n";
 }
 
-// Fungsi untuk menampilkan semua transaksi
+
+// Berikut adalah fungsi untuk menampilkan semua transaksi
+
+
 void tampilkanDaftarTransaksi() {
     if (daftarTransaksi.empty()) {
         cout << "Belum ada transaksi.\n";
@@ -116,7 +129,8 @@ void tampilkanDaftarTransaksi() {
     cout << "=============================\n";
 }
 
-// Fungsi untuk menghapus transaksi berdasarkan ID
+// berikut adalah funsi untuk menghapus transaksi berdasarkan ID
+
 void hapusTransaksi(int id) {
     bool ditemukan = false;
     for (auto it = daftarTransaksi.begin(); it != daftarTransaksi.end(); ++it) {
@@ -124,7 +138,8 @@ void hapusTransaksi(int id) {
             daftarTransaksi.erase(it);
             cout << "Transaksi dengan ID " << id << " telah dihapus.\n";
 
-            // Menulis log penghapusan transaksi
+            // menulis log penghapusan transaksi
+
             string logMessage = "Transaksi Dihapus: ID " + to_string(id);
             writeLog(logMessage);
 
@@ -132,21 +147,22 @@ void hapusTransaksi(int id) {
             break;
         }
     }
-
+    
     if (!ditemukan) {
         cout << "Transaksi dengan ID " << id << " tidak ditemukan.\n";
     }
 }
 
-int main() {
+int main(){
     int idTransaksi = 1;  // ID transaksi pertama
     Transaksi transaksi;
     int choice;
 
-    // Menu untuk admin
-    cout << "=== Kasir Futsal MarBit ===\n";
+    // Menampilkan menu untuk admin
+
+    cout << "APLIKASI KASIR FUTSAL BYTE\n\n";
     if (!loginAdmin()) {
-        cout << "Login gagal. Akses dibatasi.\n";
+        cout << "Login gagal. Keluar dari program.\n";
         return 0;
     }
 
@@ -172,15 +188,13 @@ int main() {
             case 3:
                 addTransaksi(transaksi, idTransaksi);
                 printStruk(transaksi);
-                idTransaksi++;  // Increment ID transaksi untuk transaksi berikutnya
+                idTransaksi++;  // ID transaksi selanjutnya
                 break;
             case 4:
-                cout << "Terima kasih telah menggunakan layanan kami!" << endl;
+                cout << "Keluar dari program.\n";
                 break;
-            default:
-                cout << "Pilihan tidak valid. Coba lagi.\n";
         }
-    } while (choice != 4);
 
+    } while (choice != 4);
     return 0;
 }
