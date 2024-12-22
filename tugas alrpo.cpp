@@ -1,12 +1,11 @@
 // TUBES ALRPO SEMESTER 1
 // APLIKASI KASIR FUTSAL
 
-
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iomanip>
-#include <fstream>  // Untuk file handling
+#include <iostream> // digunakan untuk input output ke layar dari pengguna
+#include <string> // untuk mengnangani teks, seperti nama lapangan dan transaksi
+#include <vector> // struktur data yang digunakan untuk menyimpan daftar transaksi
+#include <iomanip> // digunakan untuk mengatur presisi angka desimal (misalnya harga)
+#include <fstream>  // Untuk membaca dan menuis file, digunakan dalam pencacatan transaksi ke dalam file log
 using namespace std;
 
 struct Transaksi {
@@ -22,12 +21,12 @@ vector<Transaksi> daftarTransaksi;  // digunakan sebagai kontainer dinamis untuk
 // Berikut adalah fungsi untuk mengakses login admin
 bool loginAdmin() {
     string username, password;
-    const string adminUsername = "admin";  // Username admin
-    const string adminPassword = "admin123";  // Password admin
+    const string adminUsername = "byte";  // Username admin
+    const string adminPassword = "mantap";  // Password admin
 
     cout << "Masukkan username admin: ";
     cin >> username;
-    cout << "Masukkan password admi     n: ";
+    cout << "Masukkan password admin: ";
     cin >> password;
 
     return (username == adminUsername && password == adminPassword); // Mengembalikan true jika username dan password benar
@@ -37,14 +36,15 @@ bool loginAdmin() {
 
 void writeLog(const string &message) {
     ofstream logFile;
-    logFile.open("log_transaksi.txt", ios::app);  // Membuka file log untuk menambah (append)
+    logFile.open("log futsal.txt", ios::app);  // Membuka file log untuk menambah (append)
     if (logFile.is_open()) {
-        logFile << message << endl;
+        logFile << fixed << setprecision(0) << message << endl;  // Format log dengan 2 angka desimal
         logFile.close();
     } else {
         cout << "Error: Tidak bisa membuka file log.\n";
     }
 }
+
 
 // Berikut adalah fungsi untuk menambah transaksi
 
@@ -63,11 +63,11 @@ void addTransaksi(Transaksi &transaksi, int id) {
     switch (pilihanLapangan) {
         case 1:
             transaksi.jenisLapangan = "Lapangan Standar";
-            transaksi.hargaPerJam = 100.000;
+            transaksi.hargaPerJam = 100;
             break;
         case 2:
             transaksi.jenisLapangan = "Lapangan VIP";
-            transaksi.hargaPerJam = 150.000;
+            transaksi.hargaPerJam = 150;
             break;
         default:
             cout << "Pilihan tidak valid.\n";
@@ -91,8 +91,11 @@ void addTransaksi(Transaksi &transaksi, int id) {
     
     // menuliskan log transaksi baru ke log file
 
-    string logMessage = "Transaksi Baru: ID " + to_string(transaksi.idTransaksi) + ", Lapangan: " + transaksi.jenisLapangan +
-                        ", Durasi: " + to_string(transaksi.durasiSewa) + " jam, Total: Rp " + to_string(transaksi.totalHarga);
+    string logMessage = "Transaksi Baru: ID " 
+                        + to_string(transaksi.idTransaksi) 
+                        + ", Lapangan: " + transaksi.jenisLapangan 
+                        +", Durasi: " + to_string(transaksi.durasiSewa) 
+                        + " jam, Total: Rp " + to_string(transaksi.totalHarga);
     writeLog(logMessage);
 }
 
@@ -103,8 +106,8 @@ void printStruk(const Transaksi &transaksi) {
     cout << "ID Transaksi: " << transaksi.idTransaksi << endl;  // memanggil id transkasi 
     cout << "Jenis Lapangan: " << transaksi.jenisLapangan << endl; // memanggil jenis lapangan
     cout << "Durasi Sewa: " << transaksi.durasiSewa << " jam\n"; // memanggil durasi sewa untuk di tampilkan
-    cout << "Harga Per Jam: Rp " << fixed << setprecision(2) << transaksi.hargaPerJam << endl; // memanggil harga per jam
-    cout << "Total Harga: Rp " << fixed << setprecision(2) << transaksi.totalHarga << endl;  // memanggil total harga
+    cout << "Harga Per Jam: Rp " << fixed << setprecision(3) << transaksi.hargaPerJam << endl; // memanggil harga per jam
+    cout << "Total Harga: Rp " << fixed << setprecision(3) << transaksi.totalHarga << endl;  // memanggil total harga
     
     cout << "==============================================\n";
 }
